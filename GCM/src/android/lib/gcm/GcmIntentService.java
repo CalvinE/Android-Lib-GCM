@@ -33,7 +33,7 @@ public abstract class GcmIntentService extends IntentService {
             if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 this.onSendError();
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-                this.onMessageDeleted();
+                this.onMessageDeleted(Integer.parseInt(intent.getStringExtra("total_deleted"))); //$NON-NLS-1$
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 this.onMessageReceived(intent);
             }
@@ -49,8 +49,9 @@ public abstract class GcmIntentService extends IntentService {
 
     /**
      * Called when the GCM server tells pending messages have been deleted because the device was idle.
+     * @param total the number of deleted messages.
      */
-    protected abstract void onMessageDeleted();
+    protected abstract void onMessageDeleted(int total);
 
     /**
      * Called when a cloud message has been received.
